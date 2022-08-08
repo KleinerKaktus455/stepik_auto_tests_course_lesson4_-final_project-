@@ -1,3 +1,5 @@
+from selenium.webdriver.common.by import By
+from .pages.locators import ProductPageLocators
 from .pages.product_page import ProductPage
 import pytest
 import time  # удали потом
@@ -21,3 +23,31 @@ def test_guest_can_add_product_to_basket(browser, link):
 
     page.solve_quiz_and_get_code()  # потом удали
     page.should_be_correct_success_messages()
+
+
+@pytest.mark.xfail
+def test_guest_cant_see_success_message_after_adding_product_to_basket(browser):
+    link = "http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/"
+    page = ProductPage(browser, link)
+    page.open()
+    page.add_to_basket()
+    assert page.is_not_element_present(*ProductPageLocators.SUCCESS_ADDING_MESSAGE), \
+        "Guest can see success message after adding product to basket!"
+
+
+def test_guest_cant_see_success_message(browser):
+    link = "http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/"
+    page = ProductPage(browser, link)
+    page.open()
+    assert page.is_not_element_present(*ProductPageLocators.SUCCESS_ADDING_MESSAGE), \
+        "Guest can see success message!"
+
+
+@pytest.mark.xfail
+def test_message_disappeared_after_adding_product_to_basket(browser):
+    link = "http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/"
+    page = ProductPage(browser, link)
+    page.open()
+    page.add_to_basket()
+    assert page.is_disappeared(*ProductPageLocators.SUCCESS_ADDING_MESSAGE), \
+        "Message does not disappear!"
