@@ -2,8 +2,8 @@ from .base_page import BasePage
 from .locators import ProductPageLocators
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import NoAlertPresentException  # потом удали
-import math  # потом удали
-import time  # и это
+import math
+import time
 
 
 class ProductPage(BasePage):
